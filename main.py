@@ -1,49 +1,70 @@
-#### Imports et définition des variables globales
-
-
-#### Fonctions secondaires
-
+"""
+Ce module contient deux algorithmes pour encoder une chaîne de caractères :
+1. Un algorithme itératif qui crée une liste de tuples (caractère, nombre d'occurrences).
+2. Un algorithme récursif qui fait la même chose de manière récursive.
+"""
+import sys
+sys.setrecursionlimit(1100)
 
 def artcode_i(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme itératif
+    """
+    Retourne la liste de tuples encodant une chaîne de caractères passée en argument
+    selon un algorithme itératif.
 
     Args:
-        s (str): la chaîne de caractères à encoder
+        s (str): La chaîne de caractères à encoder.
 
     Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
+        list: Liste des tuples (caractère, nombre d'occurrences).
     """
-    
-    # votre code ici
+    characters = [s[0]]
+    occurrences = [1]
+    k = 1
 
-    return [ ]
+    while k < len(s):
+        if s[k] == s[k - 1]:
+            occurrences[-1] += 1
+        else:
+            characters.append(s[k])
+            occurrences.append(1)
+        k += 1
+
+    return list(zip(characters, occurrences))
 
 
 def artcode_r(s):
-    """retourne la liste de tuples encodant une chaîne de caractères passée en argument selon un algorithme récursif
+    """
+    Retourne la liste de tuples encodant une chaîne de caractères passée en argument
+    selon un algorithme récursif.
 
     Args:
-        s (str): la chaîne de caractères à encoder
+        s (str): La chaîne de caractères à encoder.
 
     Returns:
-        list: la liste des tuples (caractère, nombre d'occurences)
+        list: Liste des tuples (caractère, nombre d'occurrences).
     """
-    
-    # votre code ici
+    if not s:
+        return []
 
-    # cas de base
-    # recherche nombre de caractères identiques au premier
-    # appel récursif
+    char = s[0]
+    count = 1
 
-    return []
-    
+    while count < len(s) and s[count] == char:
+        count += 1
 
-#### Fonction principale
+    return [(char, count)] + artcode_r(s[count:])
 
 
 def main():
-    print(artcode_i('MMMMaaacXolloMM'))
-    print(artcode_r('MMMMaaacXolloMM'))
+    """
+    Fonction principale pour tester les deux méthodes d'encodage (itérative et récursive).
+    """
+    chaine = 'MMMMaaacXolloMM'
+
+    # Résultats avec les deux méthodes
+    print("Résultat avec l'algorithme itératif :", artcode_i(chaine))
+    print("Résultat avec l'algorithme récursif :", artcode_r(chaine))
+
 
 if __name__ == "__main__":
     main()
